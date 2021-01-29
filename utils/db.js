@@ -4,29 +4,16 @@ const assert = require('assert');
 
 
 class DBClient {
-
-    constructor() {
-      let host = 'localhost';
-      let port = "27017";
-      let dbName = "files_manager";
+      const host = process.env.DB_HOST || 'localhost';
+      const port = process.env.DB_PORT || 27017;
+      const dbName = process.env.DB_DATABASE || 'files_manager'; 
       let db = null;
-      if (process.env.DB_HOST) {
-        let host = process.env.DB_HOST;
-      }
-      if (process.env.DB_PORT) {
-  	let post = process.env.DB_PORT;
-      }
-      if (process.env.DB_DATABASE) {
-	let dbName = process.env.DB_DATABASE;
-      }
       const url = 'mongodb://' + host + ':' + port;  
       MongoClient.connect(url, function(err, client) { 
-        if (assert.equal(null, err)) {
-          this.db = client.db(dbName);
-	  this.db.createCollection('users');
-          this.db.createCollection('files');
-        }
         if (err) console.log(err);
+        this.db = client.db(dbName);
+	this.db.createCollection('users');
+        this.db.createCollection('files');
       });
     }
 
