@@ -1,6 +1,5 @@
-const redis = require("redis");
-import { promisify } from 'util';
-
+const redis = require("redis");                                                                                                 
+const { promisify } = require("util");
 
 class RedisClient {
     constructor() {
