@@ -1,3 +1,5 @@
+// connect to redis client and provide get, set, del methods
+
 const redis = require("redis");                                                                                                 
 const { promisify } = require("util");
 
