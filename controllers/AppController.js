@@ -8,7 +8,7 @@ function getStatus(req, res) {
 }
 
 
-function getStats(req, res) {
+async function getStats(req, res) {
 	const numUsers = await dbClient.nbUsers();
 	const numFiles = await dbClient.nbFiles();
 	res.status(200).json({ users: userNum, files: fileNum });
