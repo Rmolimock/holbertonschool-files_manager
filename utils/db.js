@@ -5,19 +5,20 @@ const port = process.env.DB_PORT || 27017;
 const dbName = process.env.DB_DATABASE || 'files_manager'; 
 let d = new Object();
 d['one'] = 1
-console.log(d)
+
+
 class DBClient {
     constructor(d) {
+	    this.set_db(10)
       this.db = null;
       const url = "mongodb://" + host + ":" + port + "/" + dbName
       const client = new MongoClient(url, { useUnifiedTopology: true });
-      function connection(client) {
+      function connection(client, scope) {
 	  client.connect(
-          (err, client) => {
+          (err, client, scope) => {
             if (err) d['q'] = false;
             else {
               d['q'] = client.db(dbName); // only create collections if they don't exist
-	      console.log('created!    ' + d['q']);
 	      if (!d['q'].collection('users')) {
 	        d['q'].createCollection('users');
 	      }
@@ -27,12 +28,17 @@ class DBClient {
             }
           },
           );
-	  console.log(d['q'] + ' is client');
       }
-      this.db = connection(client);
-	    console.log('this' + this.db);
+      this.db = connection(client, this);
     }
  
+    set_db(data) {
+	    this.db = data;
+    }
+    get_db() {
+	    return this.db
+    }
+
     isAlive() {
       return !!this.client;
     }
